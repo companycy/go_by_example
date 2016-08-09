@@ -11,8 +11,8 @@ var msgs = make(chan int)
 
 func produce() {
 	for i := 0; i < 10; i++ {
-		fmt.Println("input", i)
 		msgs <- i
+		fmt.Println("input", i)
 	}
 	done <- true
 }
