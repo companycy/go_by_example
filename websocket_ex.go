@@ -1,5 +1,7 @@
 package main
 
+// https://mp.weixin.qq.com/s?__biz=MzAxMzc4Mzk1Mw==&mid=2649836694&idx=4&sn=6886c47866ff85b9e32dea02bd1bf356&chksm=8398aa68b4ef237edf3743103b7265f806ece622252ea1b4cebff29c188b2ddd2214e2ba5a01&scene=0&pass_ticket=FxmWugrv%2BSbJKKew5SIOwjEg2cSekgSRglYh1D%2B9VNNHxzAA70YmlYpf8d2%2B2hcr
+
 import (
 	"golang.org/x/net/websocket"
 	"html/template"
