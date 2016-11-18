@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"fmt"
 	"os/exec"
+	"io"
 )
 
 var cmd = exec.Command("/usr/bin/ansible-playbook", "/data/ansible/playbook/authorize_key.yml", "-i", "/data/ansible/inventory/opsbuilderg-0pql1c2h")
@@ -17,13 +18,20 @@ func realtimeExec() (int, error) {
 		return 0, err
 	}
 
+	stderr, err := cmd.StderrPipe()
+	if err != nil {
+		return 0, err
+	}
+
 	// start the command after having set up the pipe
 	if err := cmd.Start(); err != nil {
 		return 0, err
 	}
 
 	// read command's stdout line by line
-	in := bufio.NewScanner(stdout)
+	multi := io.MultiReader(stdout, stderr)
+	in := bufio.NewScanner(multi)
+	// in := bufio.NewScanner(stdout)
 	for in.Scan() {
 		// log.Printf(in.Text()) // write each line to your log, or anything you need
 		fmt.Println(in.Text())
