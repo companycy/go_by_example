@@ -1,0 +1,232 @@
+
+dynamic programming:
+
+1. dag
+
+identify subproblems
+tackle one by one from smallest first
+
+
+procedure shorted path in dag:
+init all dist(*) to max
+dist(s) = 0 // s is start point
+
+for v := range V and v != s {
+  dist(v) = min( l(u,v)+dist(u) ) where (u,v) := range E
+}
+
+
+2. longest increasing subsequences
+
+for v := range V {
+  L(v) = 1 + max{L(u)} where (u, v) := range E 
+}
+
+retur max(L(v)) where v := range V
+
+why not recursion: 
+
+3. edit distance
+
+crucial problem for dynamic programming: what's subproblem
+
+x[1...i] and y[1...j]
+
+E(i, j) = min {1+E(i-1, j), 1+E(i, j-1), diff(i,j)+E(i-1,j-1)}
+
+E(i-1, j) = x[1...i-1] and y[1...j] where x[i] = none
+
+E(i, j-1) = x[1...i] and y[1...j-1] where y[j] = none
+
+E(i-1, j-1) = x[1...i-1] and y[1...j-1] where x[i] != none and y[j] != none
+
+
+for i := range m: // row
+  E[i,0]= i
+for j := range n:  // column
+  E[0,j] = j
+for i := range m:
+  for j := range n:
+    E[i,j] = min {1+E(i-1, j), 1+E(i, j-1), diff(i,j)+E(i-1,j-1)}
+
+return E[m,n]
+
+every dynamic programming has a underline dag
+* node as subproblem
+* edge as ordering/dependencies between subproblem
+
+Some common subproblems: !!!
+* input: x[1...n] and subproblem is x[1...i]; therefore num of subproblem is linear
+* input: x[1...n] y[1...m] and subproblem is x[1...i] y[1...j]; num of subproblem is O(mn)
+* input: x[1...n] and subproblem is x[i...j]; num of subproblem is O(n^2) -> x[1...n] and x[1...n]
+* input: rooted tree and subproblem is subtree; n!
+
+
+Knapsack
+
+repetition allowed
+K(w) = max value with capacity w
+
+K(w) = max{K(w-wi) + vi} where wi <= W
+
+K(0) = 0
+for w := range W {
+  K(w) = max( K(w-wi) + vi) where wi <= W
+}
+
+return K(W)
+
+wrong: K(w) cannot be expressed with max(K(w-wi) + K(wi)) since wi may be used in both K(w-wi) and K(wi)
+
+
+if the optimal solution to K(w) includes item i, then removing this item from the knapsack leaves an optimal solution to K(w − wi).
+
+
+repetition not allowed
+K(w, j) = maximum value achievable using a knapsack of capacity w and items 1, . . . , j.
+
+-> K(W, n)
+
+K(0, [1,,,n]) = 0
+K([1...W], 0) = 0
+
+for j := range n {
+  for w := range W {
+    K(w, j) = max { K(w-wj,j-1)+vj, K(w, j-1) }
+  }
+}
+
+memoization
+
+store result computed in hash table: can be better solution
+
+chain matrix multiplication
+
+mXn * nXp => m*n*p multiplication
+
+for tree to be optimal => subtree is also optimal  ??
+
+A1   *   A2 * A3 ...
+m0*m1 m1*m2
+
+C(i, j) = min cost of multiplication from A[i...j]
+
+-> C(1, n)
+
+C(i, j) = max { C(i, k) + C(k+1, j) + m(i) * m(k+1) * m(j+1) } where i <= k <= j
+->
+C(i, j) = max { C(i, k) + C(k+1, j) + m(i-1) * m(k) * m(j) } where i <= k <= j
+
+
+C(i, i) = 0
+
+my hw:
+for i := range n:
+  for j = i+1; j < n; j++ {
+    for k = i; k < j; k++ {
+      C(i, j) = max{ C(i, k) + C(k+1) + m(i-1) * m(k) * m(j) 
+    }
+  }
+}
+
+official hw:
+for s := range n-1 {
+  for i := range n-s { // 
+    j = i+s -> i+1 : n
+    C(i, j) = max {} where i <= k <= j    
+  }
+}
+
+C(1, i) + C(i+1, n)
+
+C(1, n) -> max {C(1, k) + C(k+1, n) + m(0) * m(k) * m(n) } where 1 <= k <= n
+
+shortest path
+
+
+
+
+6.4 knapsack
+
+with repition
+
+K(w) max value with capacity of knapsack w
+
+K(w) = max{ K(w-wi)+vi } where wi<=w
+
+without repition
+
+K(w, i) = max { K(w-wi, i-1)+vi, K(w, i-1) }
+
+
+6.5 chain matrix multiplication
+
+A[i...j]
+
+C(i, j) = min cost of multiplying A[i...j]
+
+C(i, j) = min{ C(i, k) + C(k+1, j) + C(k, k+1) } where i <= k < j
+
+
+
+6.6 shortest path
+
+shortest reliable path
+
+dist(v, i) = shortest path from s to v that uses i edges
+
+dist(v, i) = min{ dist(u, i-1) + l(u, v) } where (u, v) := range V
+
+
+all pairs shortest paths
+
+dist(i, j, k) = shortest path from i to j using only nodes [1...k]
+
+using k gives shorter path from i to j <=>
+
+dist(i, k, k-1) + dist(k, j, k-1) < dist(i, j, k-1)
+
+Floyd-Warshall algorithm
+
+
+
+
+the traveling salesman problem
+
+for a subset cities of S that includes 1, 
+C(s, j) is length of shortest path visiting each node in S exactly once, 
+starting at i, and ending at j.
+
+pick second-to-last city i, 
+
+C(S, j) = min{ C(S-{j}, i)+dij } where i := range S and i != j
+
+
+for S size from 0 to n  // n
+  for all subsets belong to S // 2^n
+    for j := range n // n
+      C(S, j) = min{ C(S-{j}, i)+dij } where i := range S and i != j 
+
+return min{S(1...n), j) + dj1}
+  => travel all S{1...n} exactly once and return to 1(home)
+
+6.7 independent sets in trees
+
+a subset nodes S where there are no edges between them
+
+I(w) for all descendants w of u (as root)
+
+I(u) = max { 1+sum( I(u's grandchildren) ), sum( I(u's children) ) }
+
+num of subproblems are vertices of tree
+
+O(n)
+
+from bottom nodes to root node:
+  
+
+
+
+
+
+

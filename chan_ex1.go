@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func test_main() {
+func main() {
 	ch1 := make(chan int)
 	defer close(ch1)
 
@@ -12,7 +12,7 @@ func test_main() {
 	defer close(done)
 
 	go func() {
-		for i := range []int{1, 2} {
+		for _, i := range []int{1, 2} {
 			fmt.Println("input", i)
 			ch1 <- i
 		}
@@ -31,7 +31,7 @@ func test_main() {
 	<-done
 }
 
-func main() {
+func main2() {
 	ch := make(chan int)
 	close(ch)
 

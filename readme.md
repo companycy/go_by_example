@@ -42,8 +42,10 @@ slice vs array
 An array type definition specifies a length and an element type
 An array's size is fixed; its length is part of its type 
 
-A slice literal is declared just like an array literal, except you leave out the element count:
 
+
+A slice literal is declared just like an array literal, except you leave out the element count:
+letters := []string{"a", "b", "c", "d"}
 
 
 One option is to constantly poll the source and check if the channel is closed or not, but that isn’t very efficient.
@@ -131,3 +133,28 @@ use sync.WaitGroup as sync tool when spawning multiple goroutines
 	
 
 被关闭的信道会禁止数据流入, 是只读的。我们仍然可以从关闭的信道中取出数据，但是不能再写入数据了。
+
+
+http://stackoverflow.com/questions/23148812/go-whats-the-meaning-of-interface
+
+empty interface:
+1. interface: a set of methods
+2. also type
+
+can accept any value, not any type.
+
+contains two words:
+1. actual type
+2. actual data
+
+
+switch v := anything.(type) {
+                    case string:
+                            fmt.Println(v)
+                    case int32, int64:
+                            fmt.Println(v)
+                    case SomeCustomType:
+                            fmt.Println(v)
+                    default:
+                            fmt.Println("unknown")
+            }

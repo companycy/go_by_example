@@ -1,0 +1,142 @@
+
+a set of vertices(nodes), V
+edges(E)
+
+edge between x, y => x shares edge with y => e = {x, y} undirected
+
+e = (x, y) => from x to y
+
+adjacency matrix M; there are n vertices n=|V|, v1...vn
+
+3.1.1 how is graph represented?
+1) 
+aij = 1 if there is edge from vi to vj
+      0 otherwise
+
+size of matrix: O(n^2)
+
+2)
+adjacency list; n linked list, one per vertex
+
+linked list of vertex u holds name of vertices to which u has outgoing edge to
+
+for directed graph, (u, v) appears exactly once in one linked list
+for undirected graph, {u, v} appears twice 
+
+size: O(|E|)
+
+(u, v) is difficult
+iterate through neighbors of vertices is easy
+
+for undirected graph
+v is in u adjacency list <=> u is in v adjacency list
+
+| V | < | E | < | V | ^2 |
+
+
+
+
+3.2 depth-first search in undirected graph
+
+3.2.1 explore mazes
+it's like exploring a maze, how to simulate string and chalk?
+
+figure 3.3 find all nodes reachable from v
+procedure explore(G, v)
+Input: G: graph = (V, E), v in V
+
+Output: visited(u) is set to true, for all nodes u reachable from v
+
+visited(v) = true // v to v
+previsit(v)
+for (u, v) in E:
+  if visited(u) is false: explore(u)
+postvisit(v)
+
+3.2.2 depth first search
+procedure dfs depth-first search
+dfs(G)
+
+// init all to false
+for v in V:
+  visited(v) = false   // O(|V|)
+
+for v in V:
+  if not visited(v): explore(v)  // O(|E|)
+
+
+3.2.3 connectivity in undirected graphs
+
+
+3.2.4 previsit and postvisit orderings
+previsit(v):
+  pre[v] = clock
+  clock += 1
+
+postvisit(v):
+  post[v] = clock
+  clock += 1
+
+3.3 depth-first search in directed graphs
+
+3.3.1 types of edges
+tree edge: part of DFS forest
+forward edge: node -> non-child descendant node, like grandchild node
+back edge: node -> ancestor
+cross edge: node -> neigther descendant node nor ancestor node
+
+3.3.2 directed acyclic graphs
+directed acyclic graphs -> dag
+
+back edge <=> a cycle in directed graph
+
+all dags can be linearized
+
+linearize dags => decreasing order of post numbers
+
+property: directed graph has a cycle <=> dfs reveals a back edge
+
+dag can't have back edge
+
+property: every edge in dag -> vertex with lower post number
+
+property: every dag has at least one source and one sink
+
+acyclicity <=> linearizability <=> absence of back edge
+
+vertex with smallest post num comes last, and it has no outgoing edge, as a sink
+
+vertext with highest post num comes first, and it has no incoming edge, as a source
+
+dag has at least one sink, and at least one source
+
+
+find a source, output it, and delete it
+repeat until graph is empty
+
+
+connectivity of directed graph:
+
+u and v are connected in directed graph <=> path from u to v, and also path from v to u
+
+meta-graph
+
+directed graph is dag of its strongly connected components
+
+top level: a dag, which can be linearized
+
+sink strongly connected graph: strongly connected component which has a sink in meta graph
+source strongly connected graph: 
+
+strongly connected components can be linearized by arranging them in decreasing order of highest post numbers
+
+in dag, each node is singleton strongly connected component
+
+question: 1. find a sink strongly connected component node. 2. find all sink strongly connected components
+
+reverse graph: G^R
+
+run dfs on G^R
+
+
+

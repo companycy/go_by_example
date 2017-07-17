@@ -1,0 +1,17 @@
+
+
+f = O(g) => f grows no faster than g => f <= c*g (c is constant)
+
+O => <=
+Omiga => >=
+
+f = omiga(g) => f >= g => g = O(f)
+f = theta(g) <=> f = O(g) and f = omiga(g)
+
+
+homework:
+0.4 (e)
+(a) + (c) 
+
+F(n) = F(n/2) * F(n/2) + Matrix
+     = O(n^2)

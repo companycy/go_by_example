@@ -1,0 +1,61 @@
+
+divide-and-conquer
+
+1. break into subproblems which are of the same type of problems
+2. recursively resolve subproblems
+3. combine answers
+
+
+x=Xl*2^(n/2) + Xr
+x*y = (Xl*2^(n/2) + Xr) * (Yl*2^(n/2) + Yr) = 2^n * XlYl + 2^(n/2) * (XrYl + XlYr) + XrYr = 4T(n/2) + O(n)
+
+-> XlYl, XrYr, (Xl+Xr)*(Yl+Yr) + O(n) -> 3T(n/2) + O(n)
+
+
+num of subproblems -> branching factor of recursion tree
+
+a, b, c = 3, 2, 1
+
+resolve a subproblems with n/b size, and combine in O(n^d) time
+
+T(n) = a * T(n/b) + O(n^d)
+
+T(n) = 
+	(1) if d > logb^a; T(n) = O(n^d)
+	(2) if d = logb^a; T(n) = O(n^d * logn)
+	(3) if d < logb^a; T(n) = O(n^logb^a)
+
+binary search:
+	T(n) = T(n/2) + O(1)
+	=> a = 1, b = 2, d = 0 => d = logb^a = log2^1 = 0
+	=> T(n) = O(logn)
+
+mergesort: a[1...n]
+
+	merge(mergesort(a[1...n/2]), mergesort(a[n/2+1...n]))
+
+z[1...n]
+for i, j, k = 0, 0; j < n && k < n; i++ {
+	if a[j] < b[k] {
+		z[i] = a[j]
+		j++
+	} else {
+		z[i] = b[k]
+		k++
+	}
+}
+
+// merge left
+
+
+if k = 0; return y[1...l]
+if l = 0; return x[1...k]
+if x[1] > y[1];
+	return concat(y[1], merge(x[1...k], y[2...l])
+else:
+	return concat(x[1], merge(x[2...k], y[1...l])
+
+
+
+
+
